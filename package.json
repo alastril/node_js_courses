@@ -1,0 +1,26 @@
+{
+  "name": "node_js_courses",
+  "version": "1.0.0",
+  "description": "courses",
+  "main": "index.js",
+  "dependencies": {
+    "nodemon": "^2.0.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "task1": "nodemon ./src/lecture1/task1.js",
+    "start": "node ./src/lecture1/task1.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/alastril/node_js_courses.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/alastril/node_js_courses/issues"
+  },
+  "homepage": "https://github.com/alastril/node_js_courses#readme"
+}
