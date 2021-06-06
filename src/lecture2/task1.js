@@ -1,12 +1,14 @@
 const express = require('express');
 const application = express();
+const validateMiddleware = require('./task2_error_middl');
+const schema = require('./task2_schema');
 
 global.users = [];
 application.listen(8000);
 application.use(express.json());
 
 application.route('/user')
-    .post(function (req, res, next) {
+    .post(validateMiddleware(schema),function (req, res, next) {
         let user = JSON.parse(JSON.stringify(req.body));
         let duplicate = false;
         users.forEach(elem => {
@@ -14,36 +16,41 @@ application.route('/user')
                 duplicate = true;
             }
         });
-        users.push(user);
         if (duplicate) {
             res.send('User already created');
         } else {
+            users.push(user);
             res.send('User was created!');
         }
-    });
+    }).put(validateMiddleware(schema), function (req, res) {
+    let userReq = JSON.parse(JSON.stringify(req.body));
+    let localUser = findUserById(userReq.id);
+    if (localUser && userReq) {
+        localUser.login = userReq.login;
+        localUser.password = userReq.password;
+        localUser.age = userReq.age;
+        localUser.isDeleted = userReq.isDeleted;
+        res.send("Updated!");
+    } else {
+        res.send("Wrong user for update!");
+    }
+});
 
 application.param('id', function (req, res, next, id) {
-    users.forEach(elem => {
-        if (elem.id === id && !elem.isDeleted) req.user = elem;
-    });
+    req.user = findUserById(id);
     next();
 });
 
+function findUserById(id) {
+    let result;
+    users.forEach(elem => {
+        if (elem.id === id && !elem.isDeleted) { result = elem;}
+    });
+    return result;
+}
 //Put
 application.route('/user/:id')
-    .put(function (req, res) {
-        let userReq = JSON.parse(JSON.stringify(req.body));
-        let localUser = req.user;
-        if (localUser && userReq) {
-            localUser.login = userReq.login;
-            localUser.password = userReq.password;
-            localUser.age = userReq.age;
-            localUser.isDeleted = userReq.isDeleted;
-            res.send("Updated!");
-        } else {
-            res.send("Wrong user for update!");
-        }
-    }).delete(function (req, res) {//Delete
+    .delete(function (req, res) {//Delete
     if (req.user) {
         req.user.isDeleted = true;
         res.send("User is deleted!");

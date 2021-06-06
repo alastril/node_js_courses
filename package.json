@@ -6,6 +6,7 @@
   "dependencies": {
     "csvtojson": "^2.0.10",
     "express": "^4.17.1",
+    "joi": "^17.4.0",
     "nodemon": "^2.0.7"
   },
   "devDependencies": {
@@ -15,8 +16,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "task1": "nodemon ./src/lecture1/task1.js",
-    "task2": "nodemon ./src/lecture1/task2.js",
+    "lec1task1": "nodemon ./src/lecture1/task1.js",
+    "lec1task2": "nodemon ./src/lecture1/task2.js",
     "lec2task1": "nodemon ./src/lecture2/task1.js",
     "start": "node ./src/lecture1/task1.js",
     "babel-node": "babel-node --presets='@babel/preset-env' --ignore='foo|bar|baz'"
